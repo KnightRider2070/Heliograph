@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://b4usape1gwkss"]
+
+[ext_resource type="Script" uid="uid://cd4f5hfqe067w" path="res://scripts/puzzles/cipher_terminal.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bjt6aoinho5do" path="res://assets/game/environment/terminal/cipher_terminal_runtime-v2.png" id="2_terminal"]
+[ext_resource type="FontFile" uid="uid://b707vq5ihjxun" path="res://assets/vendor/kenney/fonts/kenney_mini_square.ttf" id="3_font"]
+[ext_resource type="FontFile" uid="uid://do5r8nyqcovbl" path="res://assets/vendor/kenney/fonts/kenney_mini_square_mono.ttf" id="4_mono"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_speech_bubble.tscn" id="5_bubble"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_terminal"]
+resource_local_to_scene = true
+size = Vector2(90, 100)
+
+[sub_resource type="StyleBoxFlat" id="Style_terminal"]
+bg_color = Color(0.0431373, 0.0627451, 0.12549, 0.98)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.482353, 0.878431, 0.839216, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="CipherTerminal" type="Area2D" unique_id=1872309755]
+process_mode = 3
+texture_filter = 1
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=1432632374]
+position = Vector2(0, -10)
+scale = Vector2(0.86, 0.86)
+texture = ExtResource("2_terminal")
+
+[node name="ScreenGlow" type="Polygon2D" parent="." unique_id=736944417]
+position = Vector2(-15, -28)
+color = Color(0.482353, 0.878431, 0.839216, 0.08)
+polygon = PackedVector2Array(0, -24, 19, -16, 24, 0, 16, 19, 0, 24, -19, 16, -24, 0, -16, -19)
+
+[node name="Prompt" type="Label" parent="." unique_id=880695041]
+offset_left = -65.0
+offset_top = -83.0
+offset_right = 65.0
+offset_bottom = -60.0
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 12
+text = "E / ENTER: DECODE"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1505148744]
+position = Vector2(-1, -10)
+shape = SubResource("Rectangle_terminal")
+
+[node name="SpeechBubble" parent="." unique_id=33247506 instance=ExtResource("5_bubble")]
+position = Vector2(0, -78)
+scale = Vector2(0.43, 0.43)
+
+[node name="Interface" type="CanvasLayer" parent="." unique_id=1325480225]
+layer = 20
+
+[node name="Root" type="Control" parent="Interface" unique_id=1037851154]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Backdrop" type="ColorRect" parent="Interface/Root" unique_id=1907316586]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.0431373, 0.0627451, 0.12549, 0.82)
+
+[node name="Panel" type="PanelContainer" parent="Interface/Root" unique_id=1695672900]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 608.0
+offset_bottom = 340.0
+theme_override_styles/panel = SubResource("Style_terminal")
+
+[node name="Margin" type="MarginContainer" parent="Interface/Root/Panel" unique_id=577264330]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="VBoxContainer" parent="Interface/Root/Panel/Margin" unique_id=1214261778]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Heading" type="Label" parent="Interface/Root/Panel/Margin/Content" unique_id=1357912583]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 16
+text = "RELAY CIPHER"
+horizontal_alignment = 1
+
+[node name="SequenceIcons" type="HBoxContainer" parent="Interface/Root/Panel/Margin/Content" unique_id=303442134]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Sequence" type="Label" parent="Interface/Root/Panel/Margin/Content" unique_id=477033474]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 1)
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 9
+text = "SOLAR DISC / OPEN CUP / NORTH NEEDLE"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Mappings" type="Label" parent="Interface/Root/Panel/Margin/Content" unique_id=974201901]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 1)
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 9
+text = "MAPPINGS: NONE"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Answer" type="LineEdit" parent="Interface/Root/Panel/Margin/Content" unique_id=1218937716]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 13
+placeholder_text = "ENTER DECODED WORD"
+alignment = 1
+max_length = 12
+
+[node name="Feedback" type="Label" parent="Interface/Root/Panel/Margin/Content" unique_id=1229723283]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.909804, 0.290196, 0.372549, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Interface/Root/Panel/Margin/Content" unique_id=1623770797]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Submit" type="Button" parent="Interface/Root/Panel/Margin/Content/Buttons" unique_id=1339728342]
+custom_minimum_size = Vector2(140, 34)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 12
+text = "SUBMIT / ENTER"
+
+[node name="Cancel" type="Button" parent="Interface/Root/Panel/Margin/Content/Buttons" unique_id=2066089135]
+custom_minimum_size = Vector2(140, 34)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 12
+text = "CLOSE / ESC"

@@ -1,0 +1,257 @@
+[gd_scene format=3 uid="uid://bkj2e0tvxg75q"]
+
+[ext_resource type="Script" uid="uid://cd2av7r24ktys" path="res://scripts/ui/hud.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://5hvfvr7017bt" path="res://scripts/ui/charge_meter.gd" id="2_meter"]
+[ext_resource type="FontFile" uid="uid://b707vq5ihjxun" path="res://assets/vendor/kenney/fonts/kenney_mini_square.ttf" id="3_font"]
+[ext_resource type="FontFile" uid="uid://do5r8nyqcovbl" path="res://assets/vendor/kenney/fonts/kenney_mini_square_mono.ttf" id="4_mono"]
+[ext_resource type="Texture2D" uid="uid://dm8cnxqv5uaja" path="res://assets/game/ui/life_heart.svg" id="5_heart"]
+
+[sub_resource type="StyleBoxFlat" id="Style_hud"]
+bg_color = Color(0.0431373, 0.0627451, 0.12549, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.298039, 0.247059, 0.447059, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 5
+shadow_offset = Vector2(2, 3)
+
+[sub_resource type="StyleBoxFlat" id="Style_exposure"]
+bg_color = Color(0.0941176, 0.137255, 0.227451, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.482353, 0.878431, 0.839216, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Style_lives"]
+bg_color = Color(0.0941176, 0.137255, 0.227451, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.909804, 0.290196, 0.372549, 0.78)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Style_notebook"]
+bg_color = Color(0.0431373, 0.0627451, 0.12549, 0.9)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.482353, 0.878431, 0.839216, 0.55)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="HUD" type="CanvasLayer" unique_id=1034521921]
+layer = 10
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="." unique_id=45256061]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="Panel" parent="Root" unique_id=587686338]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 348.0
+offset_bottom = 62.0
+theme_override_styles/panel = SubResource("Style_hud")
+
+[node name="Accent" type="ColorRect" parent="Root/TopBar" unique_id=383590719]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 7.0
+offset_bottom = 45.0
+mouse_filter = 2
+color = Color(1, 0.54902, 0.258824, 1)
+
+[node name="ChargeLabel" type="Label" parent="Root/TopBar" unique_id=1037100952]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 5.0
+offset_right = 140.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 0.82)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 7
+text = "SOLAR CELL / RESERVE"
+
+[node name="ChargeMeter" type="Control" parent="Root/TopBar" unique_id=1055577478]
+anchors_preset = 0
+offset_left = 14.0
+offset_top = 20.0
+offset_right = 202.0
+offset_bottom = 33.0
+mouse_filter = 2
+script = ExtResource("2_meter")
+
+[node name="ChargeValue" type="Label" parent="Root/TopBar" unique_id=482972669]
+layout_mode = 0
+offset_left = 164.0
+offset_top = 3.0
+offset_right = 204.0
+offset_bottom = 19.0
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 1)
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 10
+text = "100"
+horizontal_alignment = 2
+
+[node name="ReserveLabel" type="Label" parent="Root/TopBar" unique_id=198515328]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 36.0
+offset_right = 207.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 0.55)
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 6
+text = "DASH COST: 25   SHADOW DRAIN: 8/S"
+
+[node name="ExposureModule" type="Panel" parent="Root/TopBar" unique_id=626902210]
+layout_mode = 0
+offset_left = 214.0
+offset_top = 5.0
+offset_right = 264.0
+offset_bottom = 46.0
+theme_override_styles/panel = SubResource("Style_exposure")
+
+[node name="ExposureIcon" type="TextureRect" parent="Root/TopBar/ExposureModule" unique_id=456571887]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 2.0
+offset_right = 36.0
+offset_bottom = 24.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Exposure" type="Label" parent="Root/TopBar/ExposureModule" unique_id=1043122265]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 27.0
+offset_right = 48.0
+offset_bottom = 39.0
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 6
+text = "HIDDEN"
+horizontal_alignment = 1
+
+[node name="LivesModule" type="Panel" parent="Root/TopBar" unique_id=15659374]
+layout_mode = 0
+offset_left = 273.0
+offset_top = 5.0
+offset_right = 326.0
+offset_bottom = 46.0
+theme_override_styles/panel = SubResource("Style_lives")
+
+[node name="Heart" type="TextureRect" parent="Root/TopBar/LivesModule" unique_id=1550291557]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 12.0
+offset_right = 21.0
+offset_bottom = 30.0
+texture = ExtResource("5_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LivesValue" type="Label" parent="Root/TopBar/LivesModule" unique_id=118016700]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 16.0
+offset_right = 50.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 1)
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 7
+text = "3 / 3"
+horizontal_alignment = 1
+
+[node name="Notebook" type="Panel" parent="Root" unique_id=304533157]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 309.0
+offset_right = 430.0
+offset_bottom = 351.0
+theme_override_styles/panel = SubResource("Style_notebook")
+
+[node name="Title" type="Label" parent="Root/Notebook" unique_id=1639472118]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 4.0
+offset_right = 106.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 0.72)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 7
+text = "CIPHER CACHE"
+
+[node name="Progress" type="Label" parent="Root/Notebook" unique_id=1875490704]
+layout_mode = 0
+offset_left = 362.0
+offset_top = 4.0
+offset_right = 404.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 0.75)
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 7
+text = "0 / 3"
+horizontal_alignment = 2
+
+[node name="MappingCards" type="HBoxContainer" parent="Root/Notebook" unique_id=639492161]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 6.0
+offset_right = 355.0
+offset_bottom = 36.0
+theme_override_constants/separation = 6
+
+[node name="EmptyMappings" type="Label" parent="Root/Notebook" unique_id=1807639351]
+layout_mode = 0
+offset_left = 106.0
+offset_top = 12.0
+offset_right = 350.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 0.42)
+theme_override_fonts/font = ExtResource("4_mono")
+theme_override_font_sizes/font_size = 7
+text = "NO SIGNAL FRAGMENTS"
+
+[node name="Message" type="Label" parent="Root" unique_id=1655131664]
+visible = false
+layout_mode = 0
+offset_left = 120.0
+offset_top = 120.0
+offset_right = 520.0
+offset_bottom = 178.0
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.0431373, 0.0627451, 0.12549, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 24
+text = "TRANSMISSION RESTORED"
+horizontal_alignment = 1

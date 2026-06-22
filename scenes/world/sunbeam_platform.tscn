@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/sunbeam_platform.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_sunbeam"]
+resource_local_to_scene = true
+size = Vector2(120, 18)
+
+[node name="SunbeamPlatform" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_script")
+
+[node name="InactiveVisual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-60, -9, 60, -9, 60, 9, -60, 9)
+color = Color(1, 0.819608, 0.4, 0.14)
+
+[node name="ActiveVisual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-60, -9, 60, -9, 60, 9, -60, 9)
+color = Color(1, 0.870588, 0.52, 0.96)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Rectangle_sunbeam")

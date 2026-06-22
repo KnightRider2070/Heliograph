@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="HeliographCipherDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/config/cipher_definition.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+answer = "SOLAR"
+sequence = Array[StringName]([&"solar_disc", &"glass_lens", &"low_horizon", &"eastern_arch", &"relay_fork"])
+mappings = {
+&"eastern_arch": "A",
+&"glass_lens": "O",
+&"low_horizon": "L",
+&"prism": "C",
+&"relay_fork": "R",
+&"solar_disc": "S"
+}
+decoy_glyphs = Array[StringName]([&"prism"])
+hint_text = "S _ L A R : one mark has no clue in this yard. You have spelled most of this station already — name the sun's own word."

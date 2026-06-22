@@ -1,0 +1,153 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/screens/title_screen.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/vendor/kenney/fonts/kenney_pixel_square.ttf" id="2_title"]
+[ext_resource type="FontFile" path="res://assets/vendor/kenney/fonts/kenney_mini_square.ttf" id="3_body"]
+[ext_resource type="Texture2D" path="res://assets/game/backgrounds/relay_station_panorama-v1.png" id="4_backdrop"]
+[ext_resource type="Texture2D" path="res://assets/game/environment/final_mirror_array.svg" id="5_mirror"]
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.0941176, 0.137255, 0.227451, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.482353, 0.878431, 0.839216, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0627451, 0.12549, 1)
+
+[node name="RelayBackdrop" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_backdrop")
+expand_mode = 1
+stretch_mode = 6
+modulate = Color(0.55, 0.58, 0.72, 0.58)
+
+[node name="TwilightBand" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 255, 640, 120, 640, 360, 0, 360)
+color = Color(0.298039, 0.247059, 0.447059, 0.48)
+
+[node name="SolarBeam" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(420, 0, 555, 0, 315, 360, 180, 360)
+color = Color(1, 0.819608, 0.4, 0.22)
+
+[node name="MirrorEmblem" type="TextureRect" parent="."]
+offset_left = 478.0
+offset_top = 8.0
+offset_right = 630.0
+offset_bottom = 104.0
+mouse_filter = 2
+texture = ExtResource("5_mirror")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(1, 1, 1, 0.65)
+
+[node name="ArraySilhouette" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 300, 90, 260, 180, 300, 250, 235, 360, 300, 470, 250, 560, 300, 640, 270, 640, 360, 0, 360)
+color = Color(0.0941176, 0.137255, 0.227451, 1)
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 55.0
+offset_right = 566.0
+offset_bottom = 320.0
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="Eyebrow" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 1)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 12
+text = "RELAY STATION 07 / SUMMER SOLSTICE — FINAL DAY"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.0431373, 0.0627451, 0.12549, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 52
+text = "HELIOGRAPH"
+horizontal_alignment = 1
+
+[node name="Tagline" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 1)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 13
+text = "THE LONGEST DAY IS ENDING.\nCARRY THE LIGHT. FINISH THE MESSAGE."
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Content"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Start" type="Button" parent="Content/Actions"]
+custom_minimum_size = Vector2(184, 42)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("Style_button")
+text = "BEGIN SIGNAL"
+
+[node name="Quit" type="Button" parent="Content/Actions"]
+custom_minimum_size = Vector2(120, 42)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("Style_button")
+text = "QUIT"
+
+[node name="Controls" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 0.75)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 10
+text = "A / D MOVE    SPACE JUMP    SHIFT DASH    E INTERACT"
+horizontal_alignment = 1
+
+[node name="Credit" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 335.0
+offset_right = 624.0
+offset_bottom = 354.0
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 0.55)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 8
+text = "ORIGINAL PIXEL ART / KENNEY CC0"
+horizontal_alignment = 2

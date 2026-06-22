@@ -1,0 +1,49 @@
+[gd_resource type="SpriteFrames" load_steps=15 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/idle_0.png" id="1_idle0"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/idle_1.png" id="2_idle1"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/walk_0.png" id="3_run0"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/walk_1.png" id="4_run1"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/walk_2.png" id="5_run2"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/walk_3.png" id="6_run3"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/jump.png" id="7_jump"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/fall.png" id="8_fall"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/dash_0.png" id="9_dash0"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/dash_1.png" id="10_dash1"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/death_0.png" id="11_death0"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/death_1.png" id="12_death1"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/walk_4.png" id="13_run4"]
+[ext_resource type="Texture2D" path="res://assets/game/characters/courier/frames/walk_5.png" id="14_run5"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("9_dash0")}, {"duration": 1.0, "texture": ExtResource("10_dash1")}],
+"loop": true,
+"name": &"dash",
+"speed": 14.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("11_death0")}, {"duration": 1.0, "texture": ExtResource("12_death1")}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("8_fall")}],
+"loop": true,
+"name": &"fall",
+"speed": 1.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("1_idle0")}, {"duration": 1.0, "texture": ExtResource("2_idle1")}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("7_jump")}],
+"loop": true,
+"name": &"jump",
+"speed": 1.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("3_run0")}, {"duration": 1.0, "texture": ExtResource("4_run1")}, {"duration": 1.0, "texture": ExtResource("5_run2")}, {"duration": 1.0, "texture": ExtResource("6_run3")}, {"duration": 1.0, "texture": ExtResource("13_run4")}, {"duration": 1.0, "texture": ExtResource("14_run5")}],
+"loop": true,
+"name": &"run",
+"speed": 12.0
+}]

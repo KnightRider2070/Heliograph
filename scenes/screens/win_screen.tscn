@@ -1,0 +1,134 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/screens/win_screen.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://assets/vendor/kenney/fonts/kenney_pixel_square.ttf" id="2_title"]
+[ext_resource type="FontFile" path="res://assets/vendor/kenney/fonts/kenney_mini_square.ttf" id="3_body"]
+[ext_resource type="Texture2D" path="res://assets/game/backgrounds/relay_station_panorama-v1.png" id="4_backdrop"]
+[ext_resource type="Texture2D" path="res://assets/game/environment/final_mirror_array.svg" id="5_mirror"]
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.0941176, 0.137255, 0.227451, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.819608, 0.4, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="WinScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0627451, 0.12549, 1)
+
+[node name="RelayBackdrop" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_backdrop")
+expand_mode = 1
+stretch_mode = 6
+modulate = Color(0.32, 0.36, 0.52, 0.55)
+
+[node name="SignalBeam" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(275, 360, 330, 30, 365, 30, 460, 360)
+color = Color(1, 0.819608, 0.4, 0.72)
+
+[node name="SignalCore" type="Polygon2D" parent="."]
+position = Vector2(347, 73)
+polygon = PackedVector2Array(-26, 0, 0, -26, 26, 0, 0, 26)
+color = Color(0.482353, 0.878431, 0.839216, 1)
+
+[node name="MirrorArray" type="TextureRect" parent="."]
+offset_left = 256.0
+offset_top = 6.0
+offset_right = 438.0
+offset_bottom = 119.0
+mouse_filter = 2
+texture = ExtResource("5_mirror")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(1, 1, 1, 0.78)
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 70.0
+offset_top = 65.0
+offset_right = 570.0
+offset_bottom = 315.0
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Status" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 1)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 12
+text = "TRANSMISSION SENT / ARRAY DARK"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.0431373, 0.0627451, 0.12549, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("2_title")
+theme_override_font_sizes/font_size = 38
+text = "THE LIGHT MOVES ON"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 1)
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 14
+text = "YOU FINISHED WHAT A MIND COULD NOT END.\nTHE BEAM IS BOUND FOR RELAY STATION 08 — AND THE DAWN BEYOND IT."
+horizontal_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Replay" type="Button" parent="Content/Actions"]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("Style_button")
+text = "REPLAY"
+
+[node name="Title" type="Button" parent="Content/Actions"]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("Style_button")
+text = "TITLE"
+
+[node name="Quit" type="Button" parent="Content/Actions"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_body")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("Style_button")
+text = "QUIT"

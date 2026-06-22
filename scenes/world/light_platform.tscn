@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/light_platform.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_platform"]
+resource_local_to_scene = true
+size = Vector2(144, 18)
+
+[node name="LightPlatform" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_script")
+
+[node name="InactiveVisual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-72, -9, 72, -9, 72, 9, -72, 9)
+color = Color(0.482353, 0.878431, 0.839216, 0.18)
+
+[node name="ActiveVisual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-72, -9, 72, -9, 72, 9, -72, 9)
+color = Color(1, 0.819608, 0.4, 0.95)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Rectangle_platform")

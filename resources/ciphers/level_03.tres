@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="HeliographCipherDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/config/cipher_definition.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+answer = "LUX"
+sequence = Array[StringName]([&"low_horizon", &"open_cup", &"split_ring"])
+mappings = {
+&"double_wave": "M",
+&"low_horizon": "L",
+&"open_cup": "U",
+&"split_ring": "X"
+}
+decoy_glyphs = Array[StringName]([&"double_wave"])
+hint_text = "L U _ : the old carved word for light itself. One mark here is also a lie."

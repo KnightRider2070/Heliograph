@@ -1,0 +1,206 @@
+[gd_scene format=3 uid="uid://dtu66l6x5avyw"]
+
+[ext_resource type="Script" uid="uid://c4m7pu681boct" path="res://scripts/levels/level_controller.gd" id="1_level"]
+[ext_resource type="Script" uid="uid://c2meje64luhua" path="res://scripts/puzzles/cipher_controller.gd" id="2_cipher"]
+[ext_resource type="Resource" path="res://resources/ciphers/level_01.tres" id="3_definition"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="4_player"]
+[ext_resource type="PackedScene" path="res://scenes/world/world_block.tscn" id="5_block"]
+[ext_resource type="PackedScene" path="res://scenes/world/sunlight_zone.tscn" id="6_sun"]
+[ext_resource type="PackedScene" path="res://scenes/world/light_platform.tscn" id="7_platform"]
+[ext_resource type="PackedScene" path="res://scenes/world/checkpoint.tscn" id="8_checkpoint"]
+[ext_resource type="PackedScene" uid="uid://dh0mn5y6so6ar" path="res://scenes/world/death_zone.tscn" id="9_death"]
+[ext_resource type="PackedScene" path="res://scenes/world/sentry.tscn" id="10_sentry"]
+[ext_resource type="PackedScene" path="res://scenes/puzzles/cipher_clue.tscn" id="11_clue"]
+[ext_resource type="PackedScene" uid="uid://b4usape1gwkss" path="res://scenes/puzzles/cipher_terminal.tscn" id="12_terminal"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="13_hud"]
+[ext_resource type="FontFile" uid="uid://b707vq5ihjxun" path="res://assets/vendor/kenney/fonts/kenney_mini_square.ttf" id="14_font"]
+[ext_resource type="Texture2D" uid="uid://dwbxsqhu8ddi0" path="res://assets/game/backgrounds/relay_station_panorama-v1.png" id="16_backdrop"]
+[ext_resource type="PackedScene" path="res://scenes/puzzles/puzzle_mechanism.tscn" id="17_relay"]
+[ext_resource type="PackedScene" path="res://scenes/world/moving_platform.tscn" id="18_moving"]
+
+[sub_resource type="StyleBoxFlat" id="Style_prompt"]
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+bg_color = Color(0.0431373, 0.0627451, 0.12549, 0.82)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 1
+border_color = Color(0.482353, 0.878431, 0.839216, 0.48)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="FirstSignal" type="Node2D" unique_id=1727320059]
+script = ExtResource("1_level")
+completion_scene = "res://scenes/levels/level_02.tscn"
+
+[node name="Background" type="Node2D" parent="." unique_id=1987688417]
+z_index = -10
+
+[node name="Ink" type="Polygon2D" parent="Background" unique_id=1891037341]
+color = Color(0.0431373, 0.0627451, 0.12549, 1)
+polygon = PackedVector2Array(0, 0, 2300, 0, 2300, 360, 0, 360)
+
+[node name="RelayBackdrop" type="TextureRect" parent="Background" unique_id=1083156504]
+modulate = Color(0.45, 0.48, 0.62, 0.52)
+offset_right = 2300.0
+offset_bottom = 360.0
+mouse_filter = 2
+texture = ExtResource("16_backdrop")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CableA" type="Line2D" parent="Background" unique_id=1693144648]
+points = PackedVector2Array(0, 180, 450, 90, 930, 160, 1410, 70, 1900, 150, 2300, 80)
+width = 2.0
+default_color = Color(1, 0.54902, 0.258824, 0.18)
+
+[node name="CeilingRail" type="Line2D" parent="Background" unique_id=1558723996]
+points = PackedVector2Array(0, 24, 2300, 24)
+width = 6.0
+default_color = Color(0.0941176, 0.137255, 0.227451, 0.9)
+
+[node name="RoomTitle" type="Label" parent="." unique_id=1594598559]
+z_index = 5
+offset_left = 26.0
+offset_top = 88.0
+offset_right = 320.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 0.78)
+theme_override_fonts/font = ExtResource("14_font")
+theme_override_font_sizes/font_size = 14
+text = "01 / FIRST SIGNAL"
+
+[node name="MovementPrompt" type="Label" parent="." unique_id=894073533]
+z_index = 5
+offset_left = 66.0
+offset_top = 230.0
+offset_right = 300.0
+offset_bottom = 255.0
+theme_override_colors/font_color = Color(0.94902, 0.913725, 0.847059, 0.82)
+theme_override_fonts/font = ExtResource("14_font")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("Style_prompt")
+text = "A / D MOVE    SPACE JUMP"
+
+[node name="DashPrompt" type="Label" parent="." unique_id=394597235]
+z_index = 5
+offset_left = 545.0
+offset_top = 238.0
+offset_right = 790.0
+offset_bottom = 263.0
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 0.9)
+theme_override_fonts/font = ExtResource("14_font")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("Style_prompt")
+text = "SHIFT / X DASH  -25"
+
+[node name="RelayPrompt" type="Label" parent="." unique_id=1519117425]
+z_index = 5
+offset_left = 770.0
+offset_top = 196.0
+offset_right = 1010.0
+offset_bottom = 221.0
+theme_override_colors/font_color = Color(0.482353, 0.878431, 0.839216, 0.9)
+theme_override_fonts/font = ExtResource("14_font")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("Style_prompt")
+text = "E  RELAY THE LIGHT FORWARD →"
+
+[node name="Player" parent="." unique_id=1657085787 instance=ExtResource("4_player")]
+position = Vector2(90, 278)
+
+[node name="CipherController" type="Node" parent="." unique_id=2134911357]
+script = ExtResource("2_cipher")
+definition = ExtResource("3_definition")
+
+[node name="World" type="Node2D" parent="." unique_id=1489858552]
+
+[node name="FloorA" parent="World" unique_id=75857762 instance=ExtResource("5_block")]
+position = Vector2(315, 342)
+size = Vector2(630, 72)
+
+[node name="FloorB" parent="World" unique_id=612810154 instance=ExtResource("5_block")]
+position = Vector2(990, 342)
+size = Vector2(360, 72)
+
+[node name="FloorC" parent="World" unique_id=25860373 instance=ExtResource("5_block")]
+position = Vector2(1575, 342)
+size = Vector2(810, 72)
+
+[node name="FloorD" parent="World" unique_id=405963370 instance=ExtResource("5_block")]
+position = Vector2(2180, 342)
+size = Vector2(200, 72)
+
+[node name="MovingBridge" parent="World" unique_id=604228754 instance=ExtResource("18_moving")]
+position = Vector2(1980, 315)
+size = Vector2(100, 18)
+travel = Vector2(100, 0)
+speed = 46.0
+pause_at_ends = 0.8
+
+[node name="DashBridge" parent="World" unique_id=1263750556 instance=ExtResource("7_platform")]
+position = Vector2(720, 315)
+size = Vector2(180, 18)
+
+[node name="EntryLight" parent="World" unique_id=1324708825 instance=ExtResource("6_sun")]
+position = Vector2(490, 160)
+size = Vector2(140, 292)
+
+[node name="BridgeLight" parent="World" unique_id=821107083 instance=ExtResource("6_sun")]
+position = Vector2(730, 160)
+size = Vector2(360, 292)
+
+[node name="Checkpoint" parent="World" unique_id=1569824349 instance=ExtResource("8_checkpoint")]
+position = Vector2(1079, 271)
+
+[node name="WatcherLight" parent="World" unique_id=177832451 instance=ExtResource("6_sun")]
+position = Vector2(1335, 160)
+size = Vector2(300, 292)
+starts_active = false
+
+[node name="ClueLightB" parent="World" unique_id=1785847741 instance=ExtResource("6_sun")]
+position = Vector2(1835, 160)
+size = Vector2(140, 292)
+starts_active = false
+
+[node name="Watcher" parent="World" unique_id=1269689147 instance=ExtResource("10_sentry")]
+position = Vector2(1180, 256)
+reveals_glyph = &"open_cup"
+
+[node name="SolarDisc" parent="World" unique_id=2048233491 instance=ExtResource("11_clue")]
+position = Vector2(1248, 272)
+glyph_id = &"solar_disc"
+glyph_mark = "O"
+
+[node name="DecoyWave" parent="World" unique_id=741607487 instance=ExtResource("11_clue")]
+position = Vector2(489, 273)
+glyph_id = &"double_wave"
+glyph_mark = "~"
+
+[node name="Terminal" parent="World" unique_id=205874529 instance=ExtResource("12_terminal")]
+position = Vector2(2150, 270)
+starts_powered = false
+
+[node name="RelayA" parent="World" unique_id=866805448 instance=ExtResource("17_relay")]
+position = Vector2(860, 306)
+mechanism = 2
+latching = true
+requires_light = true
+target_zones = Array[NodePath]([NodePath("../WatcherLight")])
+
+[node name="RelayB" parent="World" unique_id=779797144 instance=ExtResource("17_relay")]
+position = Vector2(1353, 311)
+latching = true
+requires_light = true
+target_zones = Array[NodePath]([NodePath("../ClueLightB"), NodePath("")])
+terminal_path = NodePath("../Terminal")
+
+[node name="DeathZone" parent="World" unique_id=1160357919 instance=ExtResource("9_death")]
+position = Vector2(1150, 460)
+
+[node name="HUD" parent="." unique_id=1958842311 instance=ExtResource("13_hud")]

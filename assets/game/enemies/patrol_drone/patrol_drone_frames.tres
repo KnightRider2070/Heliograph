@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/game/enemies/patrol_drone/frames/patrol_0.png" id="1_patrol0"]
+[ext_resource type="Texture2D" path="res://assets/game/enemies/patrol_drone/frames/patrol_1.png" id="2_patrol1"]
+[ext_resource type="Texture2D" path="res://assets/game/enemies/patrol_drone/frames/alert.png" id="3_alert"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("3_alert")}],
+"loop": true,
+"name": &"alert",
+"speed": 1.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("1_patrol0")}, {"duration": 1.0, "texture": ExtResource("2_patrol1")}],
+"loop": true,
+"name": &"patrol",
+"speed": 6.0
+}]

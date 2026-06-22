@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/sentry.gd" id="1_script"]
+[ext_resource type="Shader" path="res://assets/game/shaders/watcher_cone.gdshader" id="2_shader"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_speech_bubble.tscn" id="3_bubble"]
+[ext_resource type="Texture2D" path="res://assets/game/enemies/watcher/frames/sweeping.png" id="4_sweeping"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cone"]
+shader = ExtResource("2_shader")
+
+[node name="Sentry" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_script")
+
+[node name="TransitionFlash" type="Line2D" parent="."]
+position = Vector2(0, 7)
+z_index = 2
+points = PackedVector2Array(0, -48, 48, 0, 0, 48, -48, 0)
+width = 2.0
+default_color = Color(1, 0.819608, 0.4, 0)
+closed = true
+
+[node name="Visual" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+texture = ExtResource("4_sweeping")
+
+[node name="VisionPivot" type="Node2D" parent="."]
+position = Vector2(20, -10)
+
+[node name="VisionArea" type="Area2D" parent="VisionPivot"]
+collision_layer = 8
+collision_mask = 2
+monitoring = true
+monitorable = false
+
+[node name="Cone" type="Polygon2D" parent="VisionPivot/VisionArea"]
+material = SubResource("ShaderMaterial_cone")
+polygon = PackedVector2Array(0, -8, 240, -72, 240, 72, 0, 8)
+uv = PackedVector2Array(0, 0.45, 1, 0, 1, 1, 0, 0.55)
+color = Color(1, 0.819608, 0.4, 0.26)
+
+[node name="UpperEdge" type="Line2D" parent="VisionPivot/VisionArea"]
+points = PackedVector2Array(0, -8, 240, -72)
+width = 1.5
+default_color = Color(1, 0.819608, 0.4, 0.5)
+
+[node name="LowerEdge" type="Line2D" parent="VisionPivot/VisionArea"]
+points = PackedVector2Array(0, 8, 240, 72)
+width = 1.5
+default_color = Color(1, 0.819608, 0.4, 0.5)
+
+[node name="RayGlow" type="Line2D" parent="VisionPivot/VisionArea"]
+visible = false
+points = PackedVector2Array(0, 0, 240, 0)
+width = 11.0
+default_color = Color(0.909804, 0.290196, 0.372549, 0.22)
+
+[node name="LockRay" type="Line2D" parent="VisionPivot/VisionArea"]
+visible = false
+points = PackedVector2Array(0, 0, 240, 0)
+width = 3.0
+default_color = Color(0.909804, 0.290196, 0.372549, 1)
+
+[node name="SecondaryRay" type="Line2D" parent="VisionPivot/VisionArea"]
+visible = false
+points = PackedVector2Array(0, 0, 240, 0)
+width = 1.0
+default_color = Color(1, 0.847059, 0.878431, 0.9)
+
+[node name="MuzzleBloom" type="Polygon2D" parent="VisionPivot/VisionArea"]
+visible = false
+polygon = PackedVector2Array(0, -7, 7, 0, 0, 7, -7, 0)
+color = Color(1, 0.94902, 0.862745, 0.85)
+
+[node name="TargetSpark" type="Polygon2D" parent="VisionPivot/VisionArea"]
+visible = false
+position = Vector2(240, 0)
+polygon = PackedVector2Array(0, -8, 2, -2, 8, 0, 2, 2, 0, 8, -2, 2, -8, 0, -2, -2)
+color = Color(1, 0.839216, 0.87451, 0.9)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisionPivot/VisionArea"]
+polygon = PackedVector2Array(0, -8, 240, -72, 240, 72, 0, 8)
+
+[node name="SpeechBubble" parent="." instance=ExtResource("3_bubble")]
+position = Vector2(0, -54)
+scale = Vector2(0.42, 0.42)

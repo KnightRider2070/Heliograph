@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/moving_platform.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_moving"]
+resource_local_to_scene = true
+size = Vector2(120, 18)
+
+[node name="MovingPlatform" type="AnimatableBody2D"]
+collision_layer = 1
+collision_mask = 0
+sync_to_physics = true
+script = ExtResource("1_script")
+
+[node name="Visual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-60, -9, 60, -9, 60, 9, -60, 9)
+color = Color(0.65, 0.6, 0.78, 0.96)
+
+[node name="Trim" type="Line2D" parent="."]
+points = PackedVector2Array(-60, -9, 60, -9)
+width = 2.0
+default_color = Color(1, 0.819608, 0.4, 0.85)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Rectangle_moving")

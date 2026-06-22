@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Heliograph — carry the light through the longest night</title>
+<meta name="description" content="A solar-noir platformer. Carry sunlight through a dying relay station, hide from machines that scream EXTERMINATE, and finish a message a mind could never end." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0B1020; --shadow:#18233A; --twilight:#4C3F72;
+    --sun:#FFD166; --heat:#FF8C42; --signal:#7BE0D6;
+    --danger:#E84A5F; --paper:#F2E9D8;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --term:'VT323',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink); color:var(--paper);
+    font-family:var(--display); line-height:1.6;
+    overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(1100px 700px at 80% -10%, rgba(255,140,66,.12), transparent 60%),
+      radial-gradient(900px 600px at 10% 0%, rgba(76,63,114,.30), transparent 55%),
+      linear-gradient(180deg,#0b1020 0%,#0d1426 50%,#0a0f1d 100%);
+  }
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 24px}
+  a{color:inherit; text-decoration:none}
+  .term{font-family:var(--term); letter-spacing:.5px}
+
+  /* ---- nav ---- */
+  nav{position:sticky; top:0; z-index:30; backdrop-filter:blur(8px);
+    background:linear-gradient(180deg,rgba(11,16,32,.92),rgba(11,16,32,.35));
+    border-bottom:1px solid rgba(123,224,214,.12)}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:62px}
+  .brand{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:3px; font-size:18px}
+  .brand .lamp{width:14px; height:14px; border-radius:50%; background:var(--sun);
+    box-shadow:0 0 16px 4px rgba(255,209,102,.7); animation:beat 2.4s infinite}
+  .nav-cta{font-family:var(--term); font-size:22px; padding:4px 18px; border:1px solid var(--signal);
+    color:var(--signal); border-radius:4px; transition:.2s}
+  .nav-cta:hover{background:var(--signal); color:var(--ink); box-shadow:0 0 22px rgba(123,224,214,.5)}
+
+  /* ---- hero ---- */
+  header{position:relative; min-height:100svh; display:flex; align-items:center; overflow:hidden}
+  #dust{position:absolute; inset:0; z-index:0}
+  .sun{position:absolute; right:-120px; top:8%; width:520px; height:520px; border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, #ffe39a 0%, var(--sun) 22%, var(--heat) 52%, transparent 70%);
+    filter:blur(2px); opacity:.85; animation:sink 18s ease-in-out infinite alternate; z-index:0}
+  .sweep{position:absolute; left:50%; top:30%; width:160vmax; height:160vmax; transform-origin:top left; z-index:0;
+    background:conic-gradient(from 0deg, transparent 0 48%, rgba(255,209,102,.10) 49% 51%, transparent 52% 100%);
+    animation:sweep 9s linear infinite; mix-blend-mode:screen}
+  .hero-inner{position:relative; z-index:2; padding:120px 0 90px}
+  .overline{font-family:var(--term); font-size:22px; color:var(--signal); letter-spacing:4px; opacity:.9}
+  .overline .blip{display:inline-block; width:9px; height:9px; border-radius:50%; background:var(--danger);
+    margin-right:10px; vertical-align:middle; animation:morse 3s steps(1) infinite}
+  h1{font-size:clamp(58px,12vw,148px); line-height:.92; font-weight:700; letter-spacing:6px; margin:14px 0 6px;
+    color:var(--paper); text-shadow:0 0 40px rgba(255,209,102,.25)}
+  h1 .glow{color:var(--sun); text-shadow:0 0 26px rgba(255,209,102,.65),0 0 60px rgba(255,140,66,.35)}
+  .tag{font-size:clamp(18px,2.4vw,26px); max-width:640px; color:#cdd6e6; margin-top:10px}
+  .tag b{color:var(--sun); font-weight:500}
+  .ctas{display:flex; gap:16px; flex-wrap:wrap; margin-top:34px}
+  .btn{font-family:var(--term); font-size:24px; padding:12px 30px; border-radius:5px; cursor:pointer;
+    border:1px solid transparent; transition:.2s; letter-spacing:1px}
+  .btn-sun{background:var(--sun); color:#3a2c08; box-shadow:0 0 30px rgba(255,209,102,.35)}
+  .btn-sun:hover{transform:translateY(-2px); box-shadow:0 0 44px rgba(255,209,102,.6)}
+  .btn-ghost{border-color:var(--signal); color:var(--signal)}
+  .btn-ghost:hover{background:rgba(123,224,214,.12)}
+  .scrollcue{position:absolute; bottom:26px; left:50%; transform:translateX(-50%); z-index:2;
+    font-family:var(--term); font-size:18px; color:var(--signal); opacity:.7; animation:beat 2.2s infinite}
+
+  /* ---- sections ---- */
+  section{position:relative; padding:96px 0}
+  .kicker{font-family:var(--term); font-size:22px; letter-spacing:3px; color:var(--heat)}
+  h2{font-size:clamp(30px,5vw,52px); font-weight:700; letter-spacing:1px; margin:8px 0 16px; line-height:1.05}
+  .lede{font-size:clamp(17px,2vw,21px); color:#c3ccdd; max-width:680px}
+  .reveal{opacity:0; transform:translateY(26px); transition:.7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1; transform:none}
+
+  /* mechanic cards */
+  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; margin-top:42px}
+  .card{background:linear-gradient(180deg,rgba(24,35,58,.85),rgba(13,20,38,.85));
+    border:1px solid rgba(123,224,214,.16); border-radius:14px; padding:26px; overflow:hidden}
+  .card h3{font-size:24px; letter-spacing:1px; margin:16px 0 8px}
+  .card p{color:#aeb9cd; font-size:15px}
+  .stage{height:120px; border-radius:10px; position:relative; overflow:hidden;
+    background:radial-gradient(120px 80px at 50% 0%, rgba(76,63,114,.5), transparent 70%), #0a1020;
+    border:1px solid rgba(255,255,255,.06)}
+
+  /* light/shadow demo */
+  .ls{position:absolute; inset:0; display:flex}
+  .ls .half{flex:1; position:relative; display:flex; align-items:flex-end; justify-content:center; padding-bottom:10px}
+  .ls .lit{background:linear-gradient(180deg, rgba(255,209,102,.22), transparent)}
+  .courier{width:14px; height:26px; border-radius:5px 5px 3px 3px; background:var(--sun);
+    box-shadow:0 0 14px rgba(255,209,102,.7); animation:hop 1.8s ease-in-out infinite}
+  .ls .dark .courier{background:#2b3a5a; box-shadow:none; animation-delay:.4s}
+  .meter{position:absolute; top:12px; left:12px; right:12px; height:8px; border-radius:6px; background:rgba(255,255,255,.08); overflow:hidden}
+  .meter i{display:block; height:100%; width:60%; background:var(--sun); animation:charge 3.6s ease-in-out infinite}
+
+  /* relay svg */
+  .relaybox{width:100%; height:100%}
+  .relaybox .src{fill:#ffe39a; filter:drop-shadow(0 0 8px rgba(255,209,102,.95)); animation:pulse 2.4s ease-in-out infinite}
+  .relaybox .rail,.relaybox .drop{stroke:var(--sun); fill:none; stroke-linecap:round;
+    filter:drop-shadow(0 0 5px rgba(255,209,102,.8)); stroke-dasharray:6 7; animation:flow 1.1s linear infinite}
+  .relaybox .rail{stroke-width:2.6}
+  .relaybox .drop{stroke-width:2}
+  .relaybox .prism{fill:#ffe9b0; filter:drop-shadow(0 0 6px rgba(255,233,176,.95)); animation:pulse 2s ease-in-out infinite}
+  .relaybox .fixture{fill:#2e2747; stroke:rgba(255,209,102,.55); stroke-width:1}
+  .relaybox .shaft{fill:url(#shaftgrad); opacity:0; animation:shaft 3.3s ease-in-out infinite}
+  .relaybox .mote{fill:#ffe9b0; opacity:0; animation:mote 3.3s linear infinite}
+
+  /* cipher */
+  .cipher{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:14px}
+  .glyph{font-family:var(--term); font-size:46px; color:var(--signal); text-shadow:0 0 16px rgba(123,224,214,.5);
+    min-width:120px; text-align:center}
+  .glyph small{display:block; font-size:14px; color:#6f7b91; letter-spacing:4px}
+
+  /* watchers */
+  .watch{background:
+    radial-gradient(700px 380px at 70% 50%, rgba(232,74,95,.10), transparent 60%); border-top:1px solid rgba(232,74,95,.18); border-bottom:1px solid rgba(232,74,95,.18)}
+  .watchgrid{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center}
+  .eye{width:100%; max-width:360px; margin:0 auto; display:block}
+  .eye .iris{fill:var(--sun); transition:fill .25s}
+  .eye .cone{fill:rgba(255,209,102,.10); transform-box:fill-box; transform-origin:left center; animation:scan 3.2s ease-in-out infinite}
+  .eye.hot .iris{fill:var(--danger)}
+  .eye.hot .cone{fill:rgba(232,74,95,.16); animation-duration:.8s}
+  .exterm{font-family:var(--term); font-size:clamp(34px,6vw,64px); letter-spacing:3px; color:var(--danger);
+    text-shadow:0 0 22px rgba(232,74,95,.6); opacity:.25; transition:.3s}
+  .exterm.on{opacity:1; animation:glitch .18s steps(2) 6}
+
+  /* oracle / halting */
+  .haltwrap{display:grid; grid-template-columns:.8fr 1.2fr; gap:40px; align-items:center}
+  .loop{width:150px; height:150px; margin:auto; position:relative}
+  .loop svg{width:100%; height:100%; animation:spin 3.4s linear infinite}
+  .loop .ring{fill:none; stroke:var(--twilight); stroke-width:7}
+  .loop .arc{fill:none; stroke:var(--signal); stroke-width:7; stroke-linecap:round; stroke-dasharray:120 320}
+  .loop .lbl{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--term); font-size:20px; color:#8b97ad; text-align:center}
+
+  /* chain */
+  .chain{display:flex; align-items:center; gap:0; margin-top:36px; flex-wrap:wrap}
+  .station{display:flex; flex-direction:column; align-items:center; gap:8px; min-width:96px}
+  .station .node{width:26px; height:26px; border-radius:50%; border:2px solid var(--signal);
+    display:grid; place-items:center; color:var(--signal); font-family:var(--term); font-size:14px}
+  .station.done .node{background:var(--signal); color:var(--ink); box-shadow:0 0 18px rgba(123,224,214,.5)}
+  .station small{font-family:var(--term); font-size:14px; color:#7e8aa0; letter-spacing:1px}
+  .link{flex:1; height:2px; min-width:30px; background:linear-gradient(90deg,var(--signal),rgba(123,224,214,.15));
+    position:relative; overflow:hidden}
+  .link::after{content:""; position:absolute; top:-2px; left:-30%; width:30%; height:6px; border-radius:6px;
+    background:var(--sun); box-shadow:0 0 12px var(--sun); animation:travel 2.6s linear infinite}
+
+  /* stat strip */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:18px; margin-top:30px}
+  .stat{padding:18px; border:1px solid rgba(123,224,214,.14); border-radius:12px; text-align:center;
+    background:rgba(13,20,38,.6)}
+  .stat b{display:block; font-size:34px; color:var(--sun); font-family:var(--term)}
+  .stat span{font-size:13px; color:#9aa6bc; letter-spacing:1px}
+
+  /* turing badge */
+  .badge{display:inline-flex; align-items:center; gap:10px; font-family:var(--term); font-size:20px;
+    color:var(--signal); border:1px dashed rgba(123,224,214,.4); border-radius:999px; padding:8px 18px}
+
+  /* final */
+  .final{text-align:center; padding:120px 0}
+  .final h2{margin-bottom:18px}
+  footer{border-top:1px solid rgba(123,224,214,.12); padding:34px 0; color:#7e8aa0; font-size:14px}
+  footer .wrap{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center}
+
+  @keyframes beat{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+  @keyframes sink{0%{transform:translateY(0)}100%{transform:translateY(70px)}}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  @keyframes morse{0%,8%{opacity:1}9%,16%{opacity:.15}17%,24%{opacity:1}25%,46%{opacity:.15}47%,70%{opacity:1}71%,100%{opacity:.15}}
+  @keyframes hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-16px)}}
+  @keyframes charge{0%{width:8%}50%{width:96%}100%{width:8%}}
+  @keyframes flow{to{stroke-dashoffset:-13}}
+  @keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+  @keyframes shaft{0%,10%{opacity:0}26%,80%{opacity:.55}100%{opacity:0}}
+  @keyframes mote{0%{opacity:0;transform:translateY(0)}20%{opacity:.85}100%{opacity:0;transform:translateY(42px)}}
+  @keyframes scan{0%,100%{transform:rotate(-26deg)}50%{transform:rotate(26deg)}}
+  @keyframes glitch{0%{transform:translate(0)}25%{transform:translate(-3px,1px)}50%{transform:translate(2px,-2px)}75%{transform:translate(-2px,-1px)}100%{transform:translate(0)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes travel{to{left:130%}}
+  @media (max-width:760px){.watchgrid,.haltwrap{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important}
+    .relaybox .shaft{opacity:.45}.relaybox .src,.relaybox .prism{opacity:1}
+    .meter i{width:70%}
+  }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="lamp"></span>HELIOGRAPH</a>
+  <a class="nav-cta" href="https://github.com/KnightRider2070/heliograph/releases" target="_blank" rel="noopener">▸ play</a>
+</div></nav>
+
+<header id="top">
+  <canvas id="dust"></canvas>
+  <div class="sun"></div>
+  <div class="sweep"></div>
+  <div class="wrap hero-inner">
+    <p class="overline"><span class="blip"></span>RELAY STATION 07 // SUMMER SOLSTICE — FINAL DAY</p>
+    <h1>HELIO<span class="glow">GRAPH</span></h1>
+    <p class="tag">Carry the light through the longest night. Decode a message a machine <b>could never finish</b>. Stay out of the dark — and out of the beam.</p>
+    <div class="ctas">
+      <a class="btn btn-sun" href="https://github.com/KnightRider2070/heliograph/releases" target="_blank" rel="noopener">▸ play the demo</a>
+      <a class="btn btn-ghost" href="#story">read the signal</a>
+    </div>
+  </div>
+  <div class="scrollcue">▼ descend</div>
+</header>
+
+<section id="story" class="wrap">
+  <div class="reveal">
+    <p class="kicker">// the longest day is ending</p>
+    <h2>You wake with no name,<br>and a sun that won't come back.</h2>
+    <p class="lede">A courier opens her eyes in the shadow of a dead signal-station on the summer solstice. A cracked handheld computer flickers awake in her hand — <b style="color:var(--signal);font-weight:500">ACE</b> — and tells her the truth: tonight the sun sets and does not rise on schedule. The station holds one last message, abandoned mid-sentence forty years ago. Finish it before dark.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="reveal">
+    <p class="kicker">// three rules, combined deeply</p>
+    <h2>Light is power. And danger.</h2>
+  </div>
+  <div class="grid3">
+    <div class="card reveal">
+      <div class="stage"><div class="ls">
+        <div class="half lit"><div class="meter"><i></i></div><div class="courier"></div></div>
+        <div class="half dark"><div class="courier"></div></div>
+      </div></div>
+      <h3>Sun &amp; Shadow</h3>
+      <p>Sunlight refills your cell and reveals the route — but it makes you a target. Shadow hides you, and quietly drains you to nothing. You can never simply wait.</p>
+    </div>
+
+    <div class="card reveal">
+      <div class="stage">
+        <svg class="relaybox" viewBox="0 0 300 120" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="shaftgrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffd166" stop-opacity=".6"/>
+              <stop offset="1" stop-color="#ff8c42" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <circle class="src" cx="22" cy="26" r="9"/>
+          <polyline class="rail" points="22,26 252,26"/>
+          <line class="drop" x1="80" y1="28" x2="80" y2="60"/>
+          <line class="drop" x1="160" y1="28" x2="160" y2="60"/>
+          <line class="drop" x1="240" y1="28" x2="240" y2="60"/>
+          <path class="prism" d="M80 18 l7 8 -7 8 -7 -8z"/>
+          <path class="prism" d="M160 18 l7 8 -7 8 -7 -8z"/>
+          <path class="prism" d="M240 18 l7 8 -7 8 -7 -8z"/>
+          <rect class="fixture" x="70" y="58" width="20" height="8" rx="2"/>
+          <rect class="fixture" x="150" y="58" width="20" height="8" rx="2"/>
+          <rect class="fixture" x="230" y="58" width="20" height="8" rx="2"/>
+          <polygon class="shaft" style="animation-delay:0s" points="80,66 97,116 63,116"/>
+          <polygon class="shaft" style="animation-delay:.5s" points="160,66 177,116 143,116"/>
+          <polygon class="shaft" style="animation-delay:1s" points="240,66 257,116 223,116"/>
+          <circle class="mote" cx="80" cy="74" r="1.6" style="animation-delay:.2s"/>
+          <circle class="mote" cx="160" cy="74" r="1.6" style="animation-delay:.7s"/>
+          <circle class="mote" cx="240" cy="74" r="1.6" style="animation-delay:1.2s"/>
+        </svg>
+      </div>
+      <h3>The Relay</h3>
+      <p>Stand in the light and trip a relay — it throws the beam forward through prisms to wake the next aperture, and the one after. The road only opens if you carry the light there yourself.</p>
+    </div>
+
+    <div class="card reveal">
+      <div class="stage"><div class="cipher"><div class="glyph" id="cipher">SUN<small>DECODING…</small></div></div></div>
+      <h3>The Cipher</h3>
+      <p>Read glyphs you can only see while lit, then decode the station's keywords at a terminal: <span class="term" style="color:var(--sun)">SUN · ARC · LUX · RAY</span>. Each solved word hands you one more piece of the truth.</p>
+    </div>
+  </div>
+</section>
+
+<section class="watch">
+  <div class="wrap watchgrid">
+    <div class="reveal">
+      <svg class="eye" id="eye" viewBox="0 0 240 150">
+        <g class="cone"><path d="M120 75 L240 18 L240 132 Z"/></g>
+        <ellipse cx="120" cy="75" rx="70" ry="44" fill="#0a1020" stroke="#26324d" stroke-width="3"/>
+        <circle class="iris" cx="120" cy="75" r="26"/>
+        <circle cx="120" cy="75" r="11" fill="#0a1020"/>
+      </svg>
+    </div>
+    <div class="reveal">
+      <p class="kicker" style="color:var(--danger)">// the watchers</p>
+      <h2>At first, they talk.</h2>
+      <p class="lede">The station's machines begin dormant — curious, almost friendly. They track you. They tell you terrible jokes. And then, somewhere in the dark, you cross a line you didn't know was there… and every optic in the ruin snaps from gold to red.</p>
+      <p class="exterm" id="exterm">EXTERMINATE.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="haltwrap">
+    <div class="reveal loop">
+      <svg viewBox="0 0 100 100"><circle class="ring" cx="50" cy="50" r="40"/><circle class="arc" cx="50" cy="50" r="40"/></svg>
+      <div class="lbl">does&nbsp;not<br>halt</div>
+    </div>
+    <div class="reveal">
+      <p class="kicker">// an ode to Alan Turing</p>
+      <h2>Something is awake down there.</h2>
+      <p class="lede">Forty years ago, a message stopped mid-sentence. The mind that was sending it never finished — and never stopped trying. Reach the heart of the array, and you might understand why it can't let go — and what it has been waiting for. A quiet ode to <b style="color:var(--signal);font-weight:500">Alan Turing</b>, buried in the dark.</p>
+      <div class="badge" style="margin-top:22px"><span class="lamp" style="width:10px;height:10px;border-radius:50%;background:var(--signal);display:inline-block"></span> entered: Best Ode to Alan Turing</div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="reveal">
+    <p class="kicker">// the light has further to go</p>
+    <h2>Station 07 is only the first.</h2>
+    <p class="lede">If you can finish what was started here, the signal moves on — down a chain of relays into the dark, toward a dawn no one has seen in a very long time. How far does the light have to travel? That's the next station's problem.</p>
+  </div>
+  <div class="chain reveal">
+    <div class="station done"><div class="node">✓</div><small>STN 07</small></div>
+    <div class="link"></div>
+    <div class="station"><div class="node">08</div><small>NEXT</small></div>
+    <div class="link"></div>
+    <div class="station"><div class="node">09</div><small>—</small></div>
+    <div class="link"></div>
+    <div class="station"><div class="node">∞</div><small>DAWN</small></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>4</b><span>SOLAR-NOIR LEVELS</span></div>
+    <div class="stat"><b>10–15</b><span>MINUTES TO THE DAWN</span></div>
+    <div class="stat"><b>1</b><span>UNFINISHABLE MESSAGE</span></div>
+    <div class="stat"><b>∞</b><span>STATIONS IN THE DARK</span></div>
+  </div>
+</section>
+
+<section id="play" class="wrap final">
+  <div class="reveal">
+    <p class="kicker">// expose · charge · traverse · hide · decode</p>
+    <h2>Hold the light.<br>Finish the sentence.</h2>
+    <div class="ctas" style="justify-content:center">
+      <a class="btn btn-sun" href="https://github.com/KnightRider2070/heliograph/releases" target="_blank" rel="noopener">▸ play the demo</a>
+      <a class="btn btn-ghost" href="https://github.com/KnightRider2070/heliograph/releases" target="_blank" rel="noopener">downloads &amp; releases</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <span class="term" style="font-size:20px;color:var(--sun)">HELIOGRAPH</span>
+  <span>June Solstice Game Jam 2026 · made in Godot 4.7 · original pixel art · Kenney CC0</span>
+</div></footer>
+
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll reveals */
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);}});
+  },{threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* watcher turns hostile when its section is seen */
+  const eye=document.getElementById('eye'), ex=document.getElementById('exterm');
+  if(eye){
+    new IntersectionObserver((es)=>{es.forEach(e=>{ if(e.isIntersecting){
+      setTimeout(()=>{eye.classList.add('hot'); ex.classList.add('on');},900);
+    }});},{threshold:.5}).observe(eye);
+  }
+
+  /* cipher cycler */
+  const words=['SUN','ARC','LUX','RAY'], glyphs='ΣΦΨΩ¤§∆◊‡†ø∞'; let wi=0;
+  const cip=document.getElementById('cipher');
+  if(cip && !reduce){
+    setInterval(()=>{
+      let f=0; const target=words[wi=(wi+1)%words.length];
+      const tick=setInterval(()=>{
+        let s=''; for(let i=0;i<3;i++){ s += (i<f)? target[i] : glyphs[Math.random()*glyphs.length|0]; }
+        cip.firstChild.textContent=s;
+        if(++f>3){clearInterval(tick); cip.firstChild.textContent=target;}
+      },55);
+    },2200);
+  }
+
+  /* hero dust + drifting motes */
+  const c=document.getElementById('dust'); if(c && !reduce){
+    const x=c.getContext('2d'); let w,h,motes;
+    function size(){ w=c.width=innerWidth; h=c.height=c.parentElement.offsetHeight;
+      motes=Array.from({length:Math.min(90,w/16|0)},()=>({
+        x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.8+.4,
+        s:Math.random()*.4+.08, a:Math.random()*.5+.2})); }
+    size(); addEventListener('resize',size);
+    (function loop(){
+      x.clearRect(0,0,w,h);
+      for(const m of motes){ m.y-=m.s; m.x+=Math.sin(m.y*.01)*.2; if(m.y<-4){m.y=h+4;m.x=Math.random()*w;}
+        x.beginPath(); x.arc(m.x,m.y,m.r,0,7); x.fillStyle='rgba(255,209,102,'+m.a+')'; x.fill(); }
+      requestAnimationFrame(loop);
+    })();
+  }
+})();
+</script>
+</body>
+</html>

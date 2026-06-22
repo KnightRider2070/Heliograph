@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HeliographCipherDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/config/cipher_definition.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+answer = "RAY"
+sequence = Array[StringName]([&"relay_fork", &"eastern_arch", &"north_star"])
+mappings = {
+&"eastern_arch": "A",
+&"north_star": "Y",
+&"relay_fork": "R"
+}
+hint_text = "R A _ : one thread of the dawn you are about to fire. You carried the first two marks up from below."

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/checkpoint.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/game/environment/checkpoint/respawn_beacon_runtime-v2.png" id="2_beacon"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_speech_bubble.tscn" id="3_bubble"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_checkpoint"]
+resource_local_to_scene = true
+size = Vector2(62, 92)
+
+[node name="Checkpoint" type="Area2D"]
+texture_filter = 1
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="Visual" type="Sprite2D" parent="."]
+position = Vector2(0, -11)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_beacon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -10)
+shape = SubResource("Rectangle_checkpoint")
+
+[node name="SpeechBubble" parent="." instance=ExtResource("3_bubble")]
+position = Vector2(0, -69)
+scale = Vector2(0.44, 0.44)

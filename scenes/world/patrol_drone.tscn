@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/patrol_drone.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://assets/game/enemies/patrol_drone/patrol_drone_frames.tres" id="2_frames"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_speech_bubble.tscn" id="3_bubble"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_body"]
+resource_local_to_scene = true
+size = Vector2(50, 34)
+
+[sub_resource type="RectangleShape2D" id="Rectangle_hazard"]
+resource_local_to_scene = true
+size = Vector2(58, 42)
+
+[node name="PatrolDrone" type="CharacterBody2D"]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 1
+floor_snap_length = 4.0
+script = ExtResource("1_script")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -34)
+sprite_frames = ExtResource("2_frames")
+animation = &"patrol"
+autoplay = "patrol"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -17)
+shape = SubResource("Rectangle_body")
+
+[node name="HazardArea" type="Area2D" parent="."]
+position = Vector2(0, -17)
+collision_layer = 4
+collision_mask = 2
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardArea"]
+shape = SubResource("Rectangle_hazard")
+
+[node name="SpeechBubble" parent="." instance=ExtResource("3_bubble")]
+position = Vector2(0, -81)
+scale = Vector2(0.4, 0.4)

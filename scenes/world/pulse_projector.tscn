@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/pulse_projector.gd" id="1_script"]
+
+[node name="PulseProjector" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Housing" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-16, -14, 16, -14, 12, 2, -12, 2)
+color = Color(0.16, 0.18, 0.26, 1)
+
+[node name="HousingTrim" type="Line2D" parent="."]
+points = PackedVector2Array(-16, -14, 16, -14)
+width = 2.0
+default_color = Color(0.482353, 0.878431, 0.839216, 0.6)
+
+[node name="Lens" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-11, 1, 11, 1, 7, 6, -7, 6)
+color = Color(1, 0.92, 0.6, 1)
+
+[node name="Beam" type="Polygon2D" parent="."]
+z_index = -1
+position = Vector2(0, 6)
+color = Color(1, 0.819608, 0.4, 0.5)
+polygon = PackedVector2Array(-6, 0, 6, 0, 44, 150, -44, 150)
+
+[node name="BeamCore" type="Polygon2D" parent="."]
+position = Vector2(0, 6)
+color = Color(1, 0.952941, 0.82, 0.55)
+polygon = PackedVector2Array(-3, 0, 3, 0, 22, 150, -22, 150)

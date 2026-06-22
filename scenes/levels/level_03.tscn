@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://q0r2kqh8c0l8"]
+
+[ext_resource type="Script" uid="uid://c4m7pu681boct" path="res://scripts/levels/level_controller.gd" id="1_f2g2i"]
+[ext_resource type="Texture2D" uid="uid://ot0knnok2rfw" path="res://assets/game/backgrounds/lunar_archive-v1.png" id="2_s4yq3"]
+[ext_resource type="FontFile" uid="uid://b707vq5ihjxun" path="res://assets/vendor/kenney/fonts/kenney_mini_square.ttf" id="3_01jms"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="4_2v2jw"]
+[ext_resource type="Script" uid="uid://c2meje64luhua" path="res://scripts/puzzles/cipher_controller.gd" id="6_j1cpe"]
+[ext_resource type="Resource" path="res://resources/ciphers/level_03.tres" id="7_d10hc"]
+[ext_resource type="PackedScene" path="res://scenes/world/world_block.tscn" id="8_an42a"]
+[ext_resource type="PackedScene" path="res://scenes/world/sunlight_zone.tscn" id="10_uhxcu"]
+[ext_resource type="PackedScene" path="res://scenes/world/checkpoint.tscn" id="12_x6lnh"]
+[ext_resource type="PackedScene" path="res://scenes/puzzles/puzzle_mechanism.tscn" id="14_mwk2f"]
+[ext_resource type="PackedScene" path="res://scenes/world/patrol_drone.tscn" id="16_qsts2"]
+[ext_resource type="PackedScene" path="res://scenes/world/sentry.tscn" id="18_krbd2"]
+[ext_resource type="PackedScene" path="res://scenes/puzzles/cipher_clue.tscn" id="20_0orvv"]
+[ext_resource type="PackedScene" uid="uid://b4usape1gwkss" path="res://scenes/puzzles/cipher_terminal.tscn" id="22_yrube"]
+[ext_resource type="PackedScene" uid="uid://dh0mn5y6so6ar" path="res://scenes/world/death_zone.tscn" id="24_d17j7"]
+[ext_resource type="PackedScene" uid="uid://bkj2e0tvxg75q" path="res://scenes/ui/hud.tscn" id="26_wkwep"]
+[ext_resource type="PackedScene" path="res://scenes/world/sunbeam_platform.tscn" id="28_sunbeam"]
+[ext_resource type="PackedScene" path="res://scenes/world/pulse_projector.tscn" id="29_projector"]
+
+[node name="LunarArchive" type="Node2D" unique_id=1901270408]
+script = ExtResource("1_f2g2i")
+completion_scene = "res://scenes/levels/level_04.tscn"
+story_key = "level3"
+
+[node name="Background" type="Node2D" parent="." unique_id=230503274]
+z_index = -10
+
+[node name="Ink" type="Polygon2D" parent="Background" unique_id=793706396]
+scale = Vector2(1.0895653, 1)
+color = Color(0.03137255, 0.0627451, 0.12156863, 1)
+polygon = PackedVector2Array(0, 0, 2300, 0, 2300, 180.80627, 2300, 360, 0, 360)
+
+[node name="ChapterBackdrop" type="TextureRect" parent="Background" unique_id=593922198]
+modulate = Color(0.56, 0.58, 0.72, 0.62)
+offset_right = 2506.0
+offset_bottom = 360.0
+mouse_filter = 2
+texture = ExtResource("2_s4yq3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="RoomTitle" type="Label" parent="." unique_id=1031503364]
+z_index = 5
+offset_left = 26.0
+offset_top = 88.0
+offset_right = 366.0
+offset_bottom = 118.0
+theme_override_colors/font_color = Color(0.48235294, 0.8784314, 0.8392157, 0.78039217)
+theme_override_fonts/font = ExtResource("3_01jms")
+theme_override_font_sizes/font_size = 14
+text = "03 / LUNAR ARCHIVE"
+
+[node name="Player" parent="." unique_id=587945514 instance=ExtResource("4_2v2jw")]
+position = Vector2(86, 278)
+
+[node name="CipherController" type="Node" parent="." unique_id=1517486432]
+script = ExtResource("6_j1cpe")
+definition = ExtResource("7_d10hc")
+
+[node name="World" type="Node2D" parent="." unique_id=826759817]
+position = Vector2(2, 0)
+
+[node name="Platform00" parent="World" unique_id=1637309255 instance=ExtResource("8_an42a")]
+position = Vector2(700, 342)
+size = Vector2(1480, 72)
+
+[node name="Platform01" parent="World" unique_id=1023438961 instance=ExtResource("8_an42a")]
+position = Vector2(1760, 342)
+size = Vector2(720, 72)
+
+[node name="TerminalPad" parent="World" unique_id=577541322 instance=ExtResource("8_an42a")]
+position = Vector2(2410, 342)
+size = Vector2(180, 72)
+
+[node name="Platform02" parent="World" unique_id=743157603 instance=ExtResource("8_an42a")]
+position = Vector2(480, 286)
+size = Vector2(200, 20)
+
+[node name="Platform03" parent="World" unique_id=1775283929 instance=ExtResource("8_an42a")]
+position = Vector2(663, 239)
+size = Vector2(120, 18)
+
+[node name="Platform04" parent="World" unique_id=597400107 instance=ExtResource("8_an42a")]
+position = Vector2(854, 206)
+size = Vector2(120, 18)
+
+[node name="Platform05" parent="World" unique_id=1925475450 instance=ExtResource("8_an42a")]
+position = Vector2(1019, 157)
+size = Vector2(120, 18)
+
+[node name="Platform06" parent="World" unique_id=1092732334 instance=ExtResource("8_an42a")]
+position = Vector2(1210, 156)
+size = Vector2(50, 20)
+
+[node name="Platform07" parent="World" unique_id=1574876575 instance=ExtResource("8_an42a")]
+position = Vector2(1413, 188)
+size = Vector2(120, 18)
+
+[node name="Platform09" parent="World" unique_id=1749020821 instance=ExtResource("8_an42a")]
+position = Vector2(1850, 286)
+size = Vector2(190, 20)
+
+[node name="BrokenProjector" parent="World" unique_id=1506765835 instance=ExtResource("29_projector")]
+position = Vector2(2211, 14)
+on_time = 1.5
+off_time = 1.2
+jitter = 0.4
+beam_length = 300.0
+
+[node name="IntervalBridge" parent="World" unique_id=1427924692 instance=ExtResource("28_sunbeam")]
+position = Vector2(2210, 315)
+size = Vector2(230, 18)
+light_source = NodePath("../BrokenProjector")
+
+[node name="Sunlight00" parent="World" unique_id=1140970434 instance=ExtResource("10_uhxcu")]
+position = Vector2(480, 150)
+size = Vector2(200, 300)
+
+[node name="Sunlight01" parent="World" unique_id=199898265 instance=ExtResource("10_uhxcu")]
+position = Vector2(1296, 150)
+size = Vector2(210, 300)
+starts_active = false
+
+[node name="Sunlight02" parent="World" unique_id=771578567 instance=ExtResource("10_uhxcu")]
+position = Vector2(1850, 150)
+size = Vector2(200, 300)
+starts_active = false
+
+[node name="Checkpoint" parent="World" unique_id=314955395 instance=ExtResource("12_x6lnh")]
+position = Vector2(773, 273)
+
+[node name="PuzzleMechanism" parent="World" unique_id=894042659 instance=ExtResource("14_mwk2f")]
+position = Vector2(1006, 309)
+mechanism = 1
+latching = true
+target_zones = Array[NodePath]([NodePath("../Sunlight01"), NodePath("../Sunlight02")])
+terminal_path = NodePath("../Terminal")
+
+[node name="Patrol00" parent="World" unique_id=1652098327 instance=ExtResource("16_qsts2")]
+position = Vector2(900, 307)
+patrol_distance = 311.0
+
+[node name="Patrol01" parent="World" unique_id=980472387 instance=ExtResource("16_qsts2")]
+position = Vector2(1458, 308)
+patrol_distance = 150.0
+
+[node name="Watcher" parent="World" unique_id=105889928 instance=ExtResource("18_krbd2")]
+position = Vector2(1630, 256)
+
+[node name="Watcher" parent="World/Watcher" unique_id=998838656 instance=ExtResource("18_krbd2")]
+position = Vector2(-527, -3)
+
+[node name="CipherClue00" parent="World" unique_id=1291134914 instance=ExtResource("20_0orvv")]
+position = Vector2(417, 243)
+glyph_id = &"low_horizon"
+glyph_mark = "L"
+
+[node name="DecoyWave" parent="World" unique_id=2024959725 instance=ExtResource("20_0orvv")]
+position = Vector2(529, 243)
+glyph_id = &"double_wave"
+glyph_mark = "~"
+
+[node name="Terminal" parent="World" unique_id=817531461 instance=ExtResource("22_yrube")]
+position = Vector2(2364, 274)
+starts_powered = false
+
+[node name="DeathZone" parent="World" unique_id=2131144609 instance=ExtResource("24_d17j7")]
+position = Vector2(1150, 460)
+
+[node name="HUD" parent="." unique_id=1501342358 instance=ExtResource("26_wkwep")]

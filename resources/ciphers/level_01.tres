@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="HeliographCipherDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/config/cipher_definition.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+answer = "SUN"
+sequence = Array[StringName]([&"solar_disc", &"open_cup", &"north_needle"])
+mappings = {
+&"double_wave": "M",
+&"north_needle": "N",
+&"open_cup": "U",
+&"solar_disc": "S"
+}
+decoy_glyphs = Array[StringName]([&"double_wave"])
+hint_text = "Some marks no one hands you, and some are lies. The word is the star at the heart of the longest day."

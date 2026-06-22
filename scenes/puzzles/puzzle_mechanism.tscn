@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/puzzles/puzzle_mechanism.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_speech_bubble.tscn" id="2_bubble"]
+[ext_resource type="FontFile" path="res://assets/vendor/kenney/fonts/kenney_mini_square.ttf" id="3_font"]
+[ext_resource type="Texture2D" path="res://assets/game/environment/puzzle_mechanisms/frames/prism_rotor.png" id="4_prism"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_sensor"]
+resource_local_to_scene = true
+size = Vector2(74, 96)
+
+[node name="PuzzleMechanism" type="Area2D"]
+texture_filter = 1
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="SignalRing" type="Line2D" parent="."]
+position = Vector2(0, -52)
+points = PackedVector2Array(0, -35, 25, -25, 35, 0, 25, 25, 0, 35, -25, 25, -35, 0, -25, -25)
+width = 1.0
+default_color = Color(0.482353, 0.878431, 0.839216, 0.55)
+closed = true
+
+[node name="Visual" type="Sprite2D" parent="."]
+position = Vector2(0, -52)
+texture_filter = 1
+texture = ExtResource("4_prism")
+
+[node name="Prompt" type="Label" parent="."]
+visible = false
+offset_left = -54.0
+offset_top = -117.0
+offset_right = 54.0
+offset_bottom = -99.0
+theme_override_colors/font_color = Color(1, 0.819608, 0.4, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 9
+text = "E / ACTIVATE"
+horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -48)
+shape = SubResource("Rectangle_sensor")
+
+[node name="SpeechBubble" parent="." instance=ExtResource("2_bubble")]
+position = Vector2(0, -112)
+scale = Vector2(0.42, 0.42)

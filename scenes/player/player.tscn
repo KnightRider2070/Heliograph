@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/adapters/player_body_adapter.gd" id="1_body"]
+[ext_resource type="Script" path="res://scripts/adapters/player_visual.gd" id="2_visual"]
+[ext_resource type="SpriteFrames" path="res://assets/game/characters/courier/courier_sprite_frames.tres" id="3_frames"]
+[ext_resource type="PackedScene" path="res://scenes/ui/world_speech_bubble.tscn" id="4_bubble"]
+
+[sub_resource type="CapsuleShape2D" id="Capsule_player"]
+resource_local_to_scene = true
+radius = 10.0
+height = 38.0
+
+[node name="Player" type="CharacterBody2D"]
+texture_filter = 1
+z_index = 10
+collision_layer = 2
+collision_mask = 5
+floor_snap_length = 4.0
+floor_stop_on_slope = true
+script = ExtResource("1_body")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Capsule_player")
+
+[node name="Visual" type="Node2D" parent="."]
+position = Vector2(0, -9)
+script = ExtResource("2_visual")
+
+[node name="SignalGlow" type="Polygon2D" parent="Visual"]
+position = Vector2(0, 4)
+polygon = PackedVector2Array(-13, 0, 0, -13, 13, 0, 0, 13)
+color = Color(0.482353, 0.878431, 0.839216, 0.38)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Visual"]
+sprite_frames = ExtResource("3_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(96, -40)
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
+limit_left = 0
+limit_top = 0
+limit_right = 2300
+limit_bottom = 360
+
+[node name="SpeechBubble" parent="." instance=ExtResource("4_bubble")]
+position = Vector2(0, -40)
+scale = Vector2(0.42, 0.42)
+
+[connection signal="exposure_changed" from="." to="Visual" method="set_exposure_state"]
+[connection signal="motion_updated" from="." to="Visual" method="set_motion_state"]
+[connection signal="died" from="." to="Visual" method="play_death"]
+[connection signal="respawned" from="." to="Visual" method="reset_after_respawn"]
