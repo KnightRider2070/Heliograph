@@ -56,41 +56,24 @@ jobs:
         run: |
           set -euo pipefail
 
-          VERSION="${{ steps.ref.outputs.version }}"
           mkdir -p dist
+          VERSION="${{ steps.ref.outputs.version }}"
 
-          echo "Exported files:"
+          echo "Workspace files:"
           find . -maxdepth 5 -type f | sort
 
-          LINUX_EXE="$(find . -type f \( -name '*.x86_64' -o -name '*.arm64' \) | head -n 1 || true)"
-          WINDOWS_EXE="$(find . -type f -name '*.exe' | head -n 1 || true)"
-          MACOS_ZIP="$(find . -type f -name 'Heliograph.zip' | head -n 1 || true)"
+          echo "Builds files:"
+          find builds -maxdepth 5 -type f | sort
 
-          if [ -z "$LINUX_EXE" ]; then
-            echo "Could not find Linux export."
-            exit 1
-          fi
+          test -f builds/linux/Heliograph.x86_64
+          test -f builds/windows/Heliograph.exe
+          test -f builds/macos/Heliograph.zip
 
-          if [ -z "$WINDOWS_EXE" ]; then
-            echo "Could not find Windows export."
-            exit 1
-          fi
+          chmod +x builds/linux/Heliograph.x86_64
 
-          if [ -z "$MACOS_ZIP" ]; then
-            echo "Could not find macOS Heliograph.zip export."
-            exit 1
-          fi
-
-          LINUX_DIR="$(dirname "$LINUX_EXE")"
-          WINDOWS_DIR="$(dirname "$WINDOWS_EXE")"
-
-          echo "Linux export dir: $LINUX_DIR"
-          echo "Windows export dir: $WINDOWS_DIR"
-          echo "macOS zip: $MACOS_ZIP"
-
-          (cd "$LINUX_DIR" && zip -r "${GITHUB_WORKSPACE}/dist/${GAME_NAME}-${VERSION}-linux-x86_64.zip" .)
-          (cd "$WINDOWS_DIR" && zip -r "${GITHUB_WORKSPACE}/dist/${GAME_NAME}-${VERSION}-windows-x86_64.zip" .)
-          cp "$MACOS_ZIP" "dist/${GAME_NAME}-${VERSION}-macos-universal.zip"
+          (cd builds/linux && zip -r "../../dist/${GAME_NAME}-${VERSION}-linux-x86_64.zip" .)
+          (cd builds/windows && zip -r "../../dist/${GAME_NAME}-${VERSION}-windows-x86_64.zip" .)
+          cp builds/macos/Heliograph.zip "dist/${GAME_NAME}-${VERSION}-macos-universal.zip"
 
           ls -la dist/
 
