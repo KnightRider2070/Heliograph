@@ -42,6 +42,13 @@
   .brand{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:3px; font-size:18px}
   .brand .lamp{width:14px; height:14px; border-radius:50%; background:var(--sun);
     box-shadow:0 0 16px 4px rgba(255,209,102,.7); animation:beat 2.4s infinite}
+  .nav-right{display:flex; align-items:center; gap:26px}
+  .nav-link{font-family:var(--term); font-size:19px; color:#9fb0c9; letter-spacing:.5px;
+    position:relative; padding-bottom:2px; transition:color .2s}
+  .nav-link::after{content:""; position:absolute; left:0; right:100%; bottom:0; height:1px;
+    background:var(--signal); transition:right .25s cubic-bezier(.2,.7,.2,1)}
+  .nav-link:hover{color:var(--signal)}
+  .nav-link:hover::after{right:0}
   .nav-cta{font-family:var(--term); font-size:22px; padding:4px 18px; border:1px solid var(--signal);
     color:var(--signal); border-radius:4px; transition:.2s}
   .nav-cta:hover{background:var(--signal); color:var(--ink); box-shadow:0 0 22px rgba(123,224,214,.5)}
@@ -186,6 +193,12 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes travel{to{left:130%}}
   @media (max-width:760px){.watchgrid,.haltwrap{grid-template-columns:1fr}}
+  @media (max-width:480px){
+    .brand{font-size:15px; letter-spacing:2px; gap:8px}
+    .nav-right{gap:14px}
+    .nav-link{font-size:16px}
+    .nav-cta{font-size:17px; padding:4px 12px}
+  }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important}
     .relaybox .shaft{opacity:.45}.relaybox .src,.relaybox .prism{opacity:1}
@@ -197,8 +210,10 @@
 
 <nav><div class="wrap">
   <a class="brand" href="#top"><span class="lamp"></span>HELIOGRAPH</a>
-  <a class="nav-cta" href="docs/">docs</a>
-  <a class="nav-cta" href="https://github.com/KnightRider2070/heliograph/releases" target="_blank" rel="noopener">▸ play</a>
+  <div class="nav-right">
+    <a class="nav-link" href="docs/">docs</a>
+    <a class="nav-cta" href="https://github.com/KnightRider2070/heliograph/releases" target="_blank" rel="noopener">▸ play</a>
+  </div>
 </div></nav>
 
 <header id="top">
