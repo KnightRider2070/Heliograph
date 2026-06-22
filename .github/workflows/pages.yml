@@ -41,7 +41,7 @@ jobs:
       - name: Build docs site
         working-directory: docs
         env:
-          VITEPRESS_BASE: /heliograph/docs/
+          VITEPRESS_BASE: /Heliograph/docs/
         run: npm run build
 
       - name: Assemble Pages site
